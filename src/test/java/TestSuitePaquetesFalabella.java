@@ -8,12 +8,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chromium.ChromiumDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 
 public class TestSuitePaquetesFalabella {
@@ -39,6 +43,8 @@ public class TestSuitePaquetesFalabella {
     public By localizadorFechaInicio = By.xpath("//input[@class=\"input-tag sbox-partial-stay-checkin-date\"]");
     public By localizadorOtroDestino = By.xpath("//input[@class=\"input-tag sbox-main-focus sbox-hotel-another-city sbox-primary undefined attr\"]");
     public By localizadorCuatroEstrellas = By.xpath("(//i[@class=\"checkbox-check eva-3-icon-checkmark filters-checkbox-left\"])[4]");
+    public By localizadorHotelCosta = By.xpath("(//button[@class=\"eva-3-btn -md -primary -eva-3-fwidth\"])[2]");
+    public By  localizadorSuiteEs = By.xpath("//a[@class=\"shifu-3-button-circle OFFERS paint-circle \"]");
     @BeforeClass
     public static void init(){
         WebDriverManager.chromedriver().setup();
@@ -138,7 +144,7 @@ public class TestSuitePaquetesFalabella {
         btnBuscar.click();
     }
 
-    @Test public void PTC06(){
+    @Test public void PTC06() throws InterruptedException {
         int mesViajeIda = 6;
         int mesViajeVuelta = 6;
         int diaViajeIda = 1;
@@ -150,6 +156,12 @@ public class TestSuitePaquetesFalabella {
         String destino = "AEP";
         String destinoNuevo = "Colonia del Sacramento, Colonia, Uruguay";
         //Abrir la pagina
+
+        FluentWait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(1000))
+                .withMessage("Error de timeout BC(")
+                .ignoring(NoSuchElementException.class);
 
 
         driver.get("https://www.viajesfalabella.cl/paquetes");
@@ -255,10 +267,27 @@ public class TestSuitePaquetesFalabella {
         WebElement cuatroEstrellas = driver.findElement(localizadorCuatroEstrellas);
         delay.until(ExpectedConditions.elementToBeClickable(cuatroEstrellas));
         cuatroEstrellas.click();
+        WebElement hotelCosta = driver.findElement(localizadorHotelCosta);
+        delay.until(ExpectedConditions.elementToBeClickable(hotelCosta));
+        hotelCosta.click();
+        // ir a otra ventana
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        driver.switchTo().window(driver.getWindowHandles().toArray()[1].toString());
+        // ir a otra ventana
 
+
+        try {
+            WebElement suiteEs = driver.findElement(localizadorSuiteEs);
+            wait.until(ExpectedConditions.elementToBeClickable(suiteEs));
+            suiteEs.click();
+        }
+        catch(org.openqa.selenium.StaleElementReferenceException ex)
+        {
+            WebElement suiteEs = driver.findElement(localizadorSuiteEs);
+            wait.until(ExpectedConditions.elementToBeClickable(suiteEs));
+            suiteEs.click();
+        }
     }
-
-
 
     @After
     public void close(){

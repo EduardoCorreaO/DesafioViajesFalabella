@@ -772,7 +772,7 @@ public class TestSuiteVuelosFalabella {
         int añoViajeIda = 2022;
         int añoViajeVuelta = 2022;
         String origen = "SCL";
-        String destino = "VLN";
+        String destino = "MAD";
         String metodoPago = "";
         //Abrir la pagina
 
