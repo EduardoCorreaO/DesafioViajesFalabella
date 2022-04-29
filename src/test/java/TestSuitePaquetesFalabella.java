@@ -143,6 +143,11 @@ public class TestSuitePaquetesFalabella {
         WebElement btnBuscar = driver.findElement(localizadorBtnBuscar);
         btnBuscar.click();
     }
+    @Test public void PTC04(){
+
+
+
+    }
 
     @Test public void PTC06() throws InterruptedException {
         int mesViajeIda = 6;
