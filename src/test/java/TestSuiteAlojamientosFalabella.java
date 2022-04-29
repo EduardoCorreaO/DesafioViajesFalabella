@@ -1,8 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -212,7 +209,7 @@ public class TestSuiteAlojamientosFalabella {
         //pasajeros
         WebElement btnBuscar = driver.findElement(localizadorBtnBuscar);
         btnBuscar.click();
-        assertTrue(driver.findElement(localizadorMensajeDeError).isDisplayed());
+        Assert.assertEquals(driver.findElement(localizadorMensajeDeError).getText(), "Todos los alojamientos en Kiev están reservados.");
 
     }
     @Test public void ATC04(){

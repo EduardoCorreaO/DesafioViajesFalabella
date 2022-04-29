@@ -794,8 +794,9 @@ public class TestSuiteVuelosFalabella {
         autocomplete.click();
         WebElement destination = driver.findElement(localizadorDestination);
         destination.sendKeys(destino);
-        wait.until(ExpectedConditions.elementToBeClickable(localizadorAutocomplete));
-        autocomplete.click();
+        wait.until(ExpectedConditions.elementToBeClickable(localizadorAutocomplete2));
+        WebElement autocomplete2 = driver.findElement(localizadorAutocomplete2);
+        autocomplete2.click();
         WebElement dateStart = driver.findElement(localizadorDateStart);
         dateStart.click();
         WebElement btnNextDate = driver.findElement(localizadorBtnNextDate);
@@ -858,15 +859,19 @@ public class TestSuiteVuelosFalabella {
         for (int i = 1; i < 4; i++) {
             ninos.click();
             WebElement edad = driver.findElement(By.xpath("(//select[@class=\"select-tag\"])[" + (35+i) + "]"));
+            WebElement tarifa = driver.findElement(By.xpath("(//span [@class=\"_pnlpk-agePicker__description\"])[" + (35+i) + "]"));
             Select manejoEdad = new Select (edad);
             if (i == 1){
                 manejoEdad.selectByValue("0");
+                Assert.assertEquals(tarifa.getText(), "Tarifa bebé");
             }
             if (i == 2){
                 manejoEdad.selectByValue("11");
+                Assert.assertEquals(tarifa.getText(), "Tarifa niño");
             }
             if (i == 3){
                 manejoEdad.selectByValue("17");
+                Assert.assertEquals(tarifa.getText(), "Tarifa adulto");
             }
 
         }
@@ -880,17 +885,6 @@ public class TestSuiteVuelosFalabella {
         WebElement equipajeMano = driver.findElement(localizadorEquipajeMano);
         wait.until(ExpectedConditions.elementToBeClickable(equipajeMano));
         equipajeMano.click();
-        try {
-            WebElement usd = driver.findElement(localizadorUsd);
-            wait.until(ExpectedConditions.elementToBeClickable(usd));
-            usd.click();
-        }
-        catch(org.openqa.selenium.StaleElementReferenceException ex)
-        {
-            WebElement usd = driver.findElement(localizadorUsd);
-            wait.until(ExpectedConditions.elementToBeClickable(usd));
-            usd.click();
-        }
         WebElement comprarPrimero = driver.findElement(localizadorComprarPrimero);
         comprarPrimero.click();
         List<WebElement> pagos = driver.findElements(localizadorMetodosPago);
